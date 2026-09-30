@@ -1,0 +1,20 @@
+# .github/workflows/gitpay.yml
+name: GitPay
+on:
+  issue_comment:
+    types: [created]
+permissions:
+  issues: write
+  pull-requests: write
+jobs:
+  pay:
+    # A `/send <recipient> <amount>` comment on a pull request.
+    if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/send')
+    runs-on: ubuntu-latest
+    steps:
+      - uses: StabilityNexus/GitPay@main
+        with:
+          comment: ${{ github.event.comment.body }}
+          actor_association: ${{ github.event.comment.author_association }}
+          # Ties the payout to this PR, so a re-run can never pay it twice.
+          ref: refs/pull/${{ github.event.issue.number }}
