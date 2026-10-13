@@ -12,7 +12,7 @@ jobs:
     if: github.event.issue.pull_request && startsWith(github.event.comment.body, '/send')
     runs-on: ubuntu-latest
     steps:
-      - uses: StabilityNexus/GitPay@main
+      - uses: StabilityNexus/GitPay@v1
         with:
           comment: ${{ github.event.comment.body }}
           actor_association: ${{ github.event.comment.author_association }}
